@@ -8,6 +8,14 @@ var passport = require("passport");
 var usersController = require('../controllers/users');
 var staticsController = require('../controllers/statics');
 
+function authenticatedUser(req, res, next){
+  if (req.isAuthenticated()) return next();
+  res.redirect('/');
+}
+
+router.route("/secret")
+  .get(authenticatedUser, usersController.secret)
+
 router.route('/')
   .get(staticsController.home);
 
